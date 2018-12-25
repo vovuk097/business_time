@@ -7,6 +7,7 @@ module BusinessTime
   # manually, or with a yaml file and the load method.
   class Config
     DEFAULT_CONFIG = {
+      weekends:              SortedSet.new,
       holidays:              SortedSet.new,
       beginning_of_workday:  ParsedTime.parse('9:00 am'),
       end_of_workday:        ParsedTime.parse('5:00 pm'),
@@ -103,6 +104,7 @@ module BusinessTime
     #   BusinessTime::Config.holidays << my_holiday_date_object
     # someplace in the initializers of your application.
     threadsafe_cattr_accessor :holidays
+    threadsafe_cattr_accessor :weekends
 
     # working hours for each day - if not set using global variables :beginning_of_workday
     # and end_of_workday. Keys will be added ad weekdays.
@@ -173,6 +175,9 @@ module BusinessTime
 
         (config["holidays"] || []).each do |holiday|
           holidays << Date.parse(holiday)
+        end
+        (config["weekends"] || []).each do |weekend|
+          weekends << Date.parse(weekend)
         end
       end
 

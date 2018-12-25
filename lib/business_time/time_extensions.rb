@@ -8,7 +8,7 @@ module BusinessTime
 
     # True if this time falls on a weekday.
     def weekday?
-      BusinessTime::Config.weekdays.include?(wday)
+      BusinessTime::Config.weekdays.include?(wday) || BusinessTime::Config.weekends.include?(to_date)
     end
 
     module ClassMethods
